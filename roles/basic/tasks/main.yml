@@ -1,0 +1,9 @@
+- name: "Installing epel-release, nano, openJDK8"
+  yum: 
+    name:
+      - epel-release
+      - nano
+      - curl
+      - wget
+      - java-1.8.0-openjdk-devel
+    state: installed

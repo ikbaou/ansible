@@ -1,0 +1,16 @@
+[Unit]
+Description=Control headless soffice instance
+After=syslog.target network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/openoffice4/program/soffice.bin -headless -accept=socket,host=127.0.0.1,port=8100;urp; -nofirststartwizard
+Restart=on-failure
+RestartSec=5
+ExecStop=/usr/bin/pkill -F /var/run/soffice.pid
+PIDFile=/var/run/soffice.pid
+StandardOutput=null
+User=ansible
+
+[Install]
+WantedBy=multi-user.target

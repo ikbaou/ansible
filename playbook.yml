@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  roles:
+  - basic
+
+- hosts: app_servers
+  become: true
+  roles:
+  - soffice
+

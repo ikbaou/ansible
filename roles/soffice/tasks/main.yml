@@ -1,0 +1,50 @@
+- name: "Download soffice locally"
+  get_url:
+   url: https://netix.dl.sourceforge.net/project/openofficeorg.mirror/4.1.5/binaries/en-US/Apache_OpenOffice_4.1.5_Linux_x86-64_install-rpm_en-US.tar.gz
+   dest: ./downloads/Apache_OpenOffice_4.1.5_Linux_x86-64_install-rpm_en-US.tar.gz
+  run_once: true
+  delegate_to: localhost
+
+#"Create directory downloads"
+- file:
+    path: /home/ansible/downloads/soffice
+    state: directory
+    recurse: yes
+
+- name: "Remote copy to server"
+  copy:
+    src: ./downloads/Apache_OpenOffice_4.1.5_Linux_x86-64_install-rpm_en-US.tar.gz
+    dest: /home/ansible/downloads/Apache_OpenOffice_4.1.5_Linux_x86-64_install-rpm_en-US.tar.gz
+    mode: 0777
+
+- name: "Remote unpackage soffice"
+  unarchive:
+    src: /home/ansible/downloads/Apache_OpenOffice_4.1.5_Linux_x86-64_install-rpm_en-US.tar.gz
+    dest: /home/ansible/downloads/soffice
+    creates: /home/ansible/downloads/soffice/en-US/RPMS
+    remote_src: yes 
+
+
+- name: "Install soffice RPMs"
+  command: rpm -Uvih *rpm chdir=/home/ansible/downloads/soffice/en-US/RPMS
+  args:
+    warn: false
+  register: rpm_install
+  failed_when: rpm_install.rc != 0 and "is already installed" not in rpm_install.stderr
+  changed_when: rpm_install.rc == 0
+  become: yes
+
+- name: "Remote copy soffice.service template"
+  template:
+    src: templates/soffice.service.j2
+    dest: /etc/systemd/system/soffice.service
+
+
+- name: "Enable and start soffice.service"
+  become: yes
+  systemd: 
+    name: soffice.service
+    enabled: yes
+    daemon_reload: yes
+    state: started
+    force: yes

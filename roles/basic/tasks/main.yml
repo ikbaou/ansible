@@ -1,4 +1,5 @@
 - name: "Installing epel-release, nano, openJDK8"
+  become: true
   yum: 
     name:
       - epel-release

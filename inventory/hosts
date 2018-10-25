@@ -1,0 +1,13 @@
+[mgmt_server]
+mgmt-server.simap.local
+
+[app_servers]
+app1-server.simap.local
+app2-server.simap.local
+
+[db_servers]
+db1-server.simap.local
+db2-server.simap.local
+
+
+

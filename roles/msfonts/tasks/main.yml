@@ -1,0 +1,11 @@
+- name: "Installing epel-release, curl, cabextract, xorg-x11-font-utils, fontconfig, {{msttcore.package}}"
+  become: true
+  yum: 
+    name:
+      - epel-release
+      - curl
+      - cabextract
+      - xorg-x11-font-utils
+      - fontconfig
+      - "{{msttcore.mirror}}/{{msttcore.package}}"
+    state: installed

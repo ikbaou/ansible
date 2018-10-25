@@ -1,0 +1,4 @@
+#ms fonts related variables
+msttcore:
+  mirror: https://downloads.sourceforge.net/project/mscorefonts2/rpms
+  package: msttcore-fonts-installer-2.6-1.noarch.rpm

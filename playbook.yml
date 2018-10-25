@@ -1,11 +1,20 @@
 ---
-- hosts: all
-  become: true
-  roles:
-  - basic
+- name: "Creating local directory for downloading artifacts"
+  hosts: localhost
+  tasks:
+    - name: "Creating local directory ~/Downloads"
+      file:
+        path: ~/Downloads/soffice
+        state: directory
+        recurse: yes
 
-- hosts: app_servers
-  become: true
-  roles:
+- name: "Starting installation"
+  hosts: "{{target_host}}"
+  vars_files:
+    - "./vars/{{target_env}}.yml"
+  roles:  
+  - basic
+  - msfonts
   - soffice
+  - clamav
 

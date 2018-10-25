@@ -1,0 +1,67 @@
+# Use yum to install clamAV
+- name: Installing clamAV via yum
+  become: true
+  yum:
+    name:
+    - clamav-server
+    - clamav-data
+    - clamav-update
+    - clamav-filesystem
+    - clamav 
+    - clamav-scanner-systemd 
+    - clamav-devel
+    - clamav-lib 
+    - clamav-server-systemd
+    state: installed
+
+# Copying scan.conf template file
+- name: "Copying scan.conf template to /etc/clamd.d/scan.conf"
+  become: yes
+  template:
+    src: scan.conf.j2
+    dest: /etc/clamd.d/scan.conf
+    backup: yes
+    mode: 0660
+
+# Copying freshclam.service template file
+- name: "Copying freshclam.service template"
+  become: yes
+  template:
+    src: freshclam.service.j2
+    dest: /etc/systemd/system/freshclam.service
+    backup: yes
+    mode: 0660
+
+#enable the freshclam service
+- name: "Enabling and starting freshclam.service"
+  become: yes
+  systemd: 
+    name: freshclam.service
+    enabled: yes
+    daemon_reload: yes
+    state: restarted
+    force: yes
+
+#enable the clamd@scan service
+- name: "Enabling and starting clamd@scan"
+  become: yes
+  systemd: 
+    name: clamd@scan
+    enabled: yes
+    daemon_reload: yes
+    state: restarted
+    force: yes
+
+#allow the clamd@scan service via the firewall
+- name: "Opening clamd@scan firewall port {{clamav.port}}"
+  become: yes
+  firewalld:
+    port: "{{clamav.port}}/tcp"
+    permanent: true
+    state: enabled
+
+- name: "Bounce firewalld"
+  become: yes
+  service: 
+    name=firewalld 
+    state=restarted

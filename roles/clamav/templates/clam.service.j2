@@ -1,0 +1,17 @@
+[Unit]
+Description = clamd scanner daemon
+
+# Check for database existence
+# ConditionPathExistsGlob=@DBDIR@/main.{c[vl]d,inc}
+# ConditionPathExistsGlob=@DBDIR@/daily.{c[vl]d,inc}
+After = syslog.target nss-lookup.target network.target
+
+[Service]
+Type = forking
+ExecStart = /usr/sbin/clamd -c /etc/clamd.d/scan.conf
+Restart = on-failure
+User={{clamav.user_scan}}
+
+[Install]
+WantedBy = multi-user.target
+

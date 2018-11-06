@@ -6,5 +6,6 @@ Type = forking
 ExecStart = /usr/bin/freshclam -d -c 2
 Restart = on-failure
 PrivateTmp = true
+User={{clamav.user_update}}
 [Install]
 WantedBy=multi-user.target

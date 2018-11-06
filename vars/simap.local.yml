@@ -1,6 +1,21 @@
+#ansible variables
+ansible:
+  user: ansible
+
 #soffice related variables
 soffice:
+  user: soffice
   port: 8100
   version: 4.1.5
   mirror: https://netix.dl.sourceforge.net/project/openofficeorg.mirror
   release: Linux_x86-64_install-rpm_en-US
+
+#clamAV related variables
+clamav:
+  user_update: clamupdate
+  user_scan: clamscan
+  port: 3310
+  stream_max_length: 150M
+  max_scan_size: 150M
+  max_file_size: 150M
+

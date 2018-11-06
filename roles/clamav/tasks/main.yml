@@ -14,14 +14,14 @@
     - clamav-server-systemd
     state: installed
 
-# Copying scan.conf template file
+# Copying scan.conf template file (readable by all so clamscan can parse it)
 - name: "Copying scan.conf template to /etc/clamd.d/scan.conf"
   become: yes
   template:
     src: scan.conf.j2
     dest: /etc/clamd.d/scan.conf
     backup: yes
-    mode: 0660
+    mode: 0664
 
 # Copying freshclam.service template file
 - name: "Copying freshclam.service template"
@@ -42,18 +42,29 @@
     state: restarted
     force: yes
 
-#enable the clamd@scan service
-- name: "Enabling and starting clamd@scan"
+
+# Copying clam.service template file
+- name: "Copying clam.service template"
+  become: yes
+  template:
+    src: clam.service.j2
+    dest: /etc/systemd/system/clam.service
+    backup: yes
+    mode: 0660
+
+
+#enable the clamd service
+- name: "Enabling and starting clamd"
   become: yes
   systemd: 
-    name: clamd@scan
+    name: clam
     enabled: yes
     daemon_reload: yes
     state: restarted
     force: yes
 
-#allow the clamd@scan service via the firewall
-- name: "Opening clamd@scan firewall port {{clamav.port}}"
+#allow the clamd service via the firewall
+- name: "Opening clam firewall port {{clamav.port}}"
   become: yes
   firewalld:
     port: "{{clamav.port}}/tcp"

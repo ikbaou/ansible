@@ -21,6 +21,10 @@ clamav:
   
 #PG related variables
 postgresql_version: 10
+postgresql_listen_addresses:
+  - "*"
+postgresql_port: 5433
+
 postgresql_encoding: "UTF-8"
 postgresql_locale: "en_US.UTF-8"
 postgresql_ctype: "en_US.UTF-8"

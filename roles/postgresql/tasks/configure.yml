@@ -139,7 +139,6 @@
     group: "{{ postgresql_service_group }}"
     mode: 0640
   register: postgresql_configuration_pt4
-  notify: restart postgresql with service
     
 - name: PostgreSQL | Create folder for additional configuration files
   become: true
@@ -167,7 +166,6 @@
     owner: "{{ postgresql_service_user }}"
     group: "{{ postgresql_service_group }}"
     mode: u=rwX,g=rwXs,o=rx
-  notify: restart postgresql with service
 
 - name: PostgreSQL | Reload all conf files
   become: true

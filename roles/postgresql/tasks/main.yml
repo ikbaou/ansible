@@ -12,17 +12,17 @@
   tags: [postgresql, postgresql-configure]
 
 - import_tasks: users.yml
-  tags: [postgresql, postgresql-users]
+  tags: [postgresql-users]
   
 - import_tasks: tablespace.yml
-  tags: [postgresql, postgresql-tablespace]
+  tags: [postgresql-tablespace]
 
 - import_tasks: epps.yml
-  tags: [postgresql, postgresql-epps]
+  tags: [postgresql-epps]
   
 - import_tasks: efl.yml
-  tags: [postgresql, postgresql-epps]
+  tags: [postgresql-efl]
 
 - import_tasks: webtpt.yml
-  tags: [postgresql, postgresql-epps]  
+  tags: [postgresql-webtpt]  
 

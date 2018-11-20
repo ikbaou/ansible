@@ -1,6 +1,7 @@
 # file: postgresql/tasks/configure.yml
 
 - name: PostgreSQL | Drop the data directory | RedHat
+  become: true
   file:
     path: "{{ postgresql_data_directory }}"
     state: absent
@@ -8,6 +9,7 @@
   when: postgresql_cluster_reset
 
 - name: PostgreSQL | Make sure the postgres data directory exists
+  become: true
   file:
     path: "{{postgresql_data_directory}}"
     owner: "{{ postgresql_service_user }}"
@@ -17,6 +19,7 @@
   register: pgdata_dir_exist
 
 - name: PostgreSQL | Make sure the postgres WAL directory exists
+  become: true
   file:
     path: "{{ postgresql_wal_directory }}"
     owner: "{{ postgresql_service_user }}"
@@ -27,6 +30,7 @@
   when: postgresql_wal_directory != ""
 
 - name: PostgreSQL | Make sure the postgres log directory exists
+  become: true
   file:
     path: "{{ postgresql_log_directory }}"
     owner: "{{ postgresql_service_user }}"
@@ -37,7 +41,7 @@
   when: postgresql_log_directory != "pg_log"
 
 - name: PostgreSQL | Ensure the locale is generated | RedHat
-  become: yes
+  become: true
   command: localedef -c -i {{ item.parts[0] }} -f {{ item.parts[1] }} {{ item.locale_name }}
   changed_when: false
   with_items:
@@ -46,6 +50,7 @@
   ignore_errors: yes
 
 - name: PostgreSQL | Check whether the postgres data directory is initialized
+  become: yes
   stat:
     path: "{{ postgresql_data_directory }}/PG_VERSION"
   when: not postgresql_cluster_reset
@@ -59,13 +64,14 @@
     {% if postgresql_pwfile != "" %}--pwfile={{ postgresql_pwfile }} {% endif %}
     {% if postgresql_wal_directory != "" and postgresql_version | version_compare('10', '<') %}--xlogdir={{ postgresql_wal_directory }} {% endif %}
     {% if postgresql_wal_directory != "" and postgresql_version | version_compare('10', '>=') %}--waldir={{ postgresql_wal_directory }} {% endif %}
-  become: yes
+  become: true
   become_user: "{{ postgresql_service_user }}"
   when: (postgresql_cluster_reset or
          pgdata_dir_exist.changed or
          not pgdata_dir_initialized.stat.exists)
 
 - name: PostgreSQL | Ensure configuration directory exists
+  become: true
   file:
     path: "{{ postgresql_conf_directory }}"
     owner: "{{ postgresql_service_user }}"
@@ -74,6 +80,7 @@
     state: directory
 
 - name: PostgreSQL | Update configuration - pt. 1 (pg_hba.conf)
+  become: true
   template:
     src: pg_hba.conf.j2
     dest: "{{postgresql_conf_directory}}/pg_hba.conf"
@@ -83,6 +90,7 @@
   register: postgresql_configuration_pt1
 
 - name: PostgreSQL | Update configuration - pt. 2 (postgresql.conf)
+  become: true
   template:
     src: "postgresql.conf-{{ postgresql_version }}.j2"
     # if using pgtune, save the template to ".untuned"
@@ -123,6 +131,7 @@
   changed_when: "'_OK_' not in postgresql_configuration_pt3.stdout"
 
 - name: PostgreSQL | Update configuration - pt. 4 (pg_ident.conf)
+  become: true
   template:
     src: pg_ident.conf.j2
     dest: "{{ postgresql_ident_file }}"
@@ -133,6 +142,7 @@
   notify: restart postgresql with service
 
 - name: PostgreSQL | Create folder for additional configuration files
+  become: true
   file:
     name: "{{postgresql_conf_directory}}/conf.d"
     state: directory
@@ -141,6 +151,7 @@
     mode: 0755
 
 - name: PostgreSQL | Ensure the systemd directory for PostgreSQL exists | RedHat
+  become: true
   file:
     name: "/etc/systemd/system/postgresql-{{ postgresql_version }}.service.d"
     state: directory
@@ -148,12 +159,14 @@
   notify: restart postgresql with systemd
 
 - name: PostgreSQL | Use the conf directory when starting the Postgres service | RedHat
+  become: true
   template:
     src: etc_systemd_system_postgresql.service.d_custom.conf.j2
     dest: "/etc/systemd/system/postgresql-{{ postgresql_version }}.service.d/custom.conf"
   register: postgresql_systemd_custom_conf
 
 - name: PostgreSQL | Ensure the pid directory for PostgreSQL exists
+  become: true
   file:
     name: "{{ postgresql_pid_directory }}"
     state: directory
@@ -163,6 +176,7 @@
   notify: restart postgresql with service
 
 - name: PostgreSQL | Reload all conf files
+  become: true
   service:
     name: "{{ postgresql_service_name }}"
     state: reloaded

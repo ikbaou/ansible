@@ -140,30 +140,15 @@
     mode: 0640
   register: postgresql_configuration_pt4
   notify: restart postgresql with service
-
-- name: PostgreSQL | Create folder for additional configuration files
-  become: true
-  file:
-    name: "{{postgresql_conf_directory}}/conf.d"
-    state: directory
-    owner: "{{ postgresql_service_user }}"
-    group: "{{ postgresql_service_group }}"
-    mode: 0755
-
-- name: PostgreSQL | Ensure the systemd directory for PostgreSQL exists | RedHat
-  become: true
-  file:
-    name: "/etc/systemd/system/postgresql-{{ postgresql_version }}.service.d"
-    state: directory
-    mode: 0755
-  notify: restart postgresql with systemd
-
-- name: PostgreSQL | Use the conf directory when starting the Postgres service | RedHat
-  become: true
+    
+# Copying postgresql.service template file
+- name: "Copying postgresql.service template"
+  become: yes
   template:
-    src: etc_systemd_system_postgresql.service.d_custom.conf.j2
-    dest: "/etc/systemd/system/postgresql-{{ postgresql_version }}.service.d/custom.conf"
-  register: postgresql_systemd_custom_conf
+    src: postgresql.service.j2
+    dest: /etc/systemd/system/postgresql-{{postgresql_version}}.service
+    backup: yes
+    mode: 0660
 
 - name: PostgreSQL | Ensure the pid directory for PostgreSQL exists
   become: true
@@ -180,4 +165,4 @@
   service:
     name: "{{ postgresql_service_name }}"
     state: reloaded
-  when: postgresql_configuration_pt1.changed or postgresql_configuration_pt2.changed or postgresql_configuration_pt3.changed or postgresql_systemd_custom_conf.changed
+  when: postgresql_configuration_pt1.changed or postgresql_configuration_pt2.changed or postgresql_configuration_pt3.changed

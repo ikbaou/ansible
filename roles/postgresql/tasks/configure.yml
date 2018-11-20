@@ -141,6 +141,14 @@
   register: postgresql_configuration_pt4
   notify: restart postgresql with service
     
+- name: PostgreSQL | Create folder for additional configuration files
+  file:
+    name: "{{postgresql_conf_directory}}/conf.d"
+    state: directory
+    owner: "{{ postgresql_service_user }}"
+    group: "{{ postgresql_service_group }}"
+    mode: 0755
+    
 # Copying postgresql.service template file
 - name: "Copying postgresql.service template"
   become: yes

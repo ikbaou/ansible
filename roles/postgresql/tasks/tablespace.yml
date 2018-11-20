@@ -14,10 +14,10 @@
     group: "{{ postgresql_service_group }}"
     mode: 0700
   with_items:
-    - "{{tablespace_dir}}"
-    - "{{tablespace_dir}}/tbs_data"
-    - "{{tablespace_dir}}/tbs_index"
-    - "{{tablespace_dir}}/tbs_lob"
+    - "{{postgresql_tablespace_dir}}"
+    - "{{postgresql_tablespace_dir}}/tbs_data"
+    - "{{postgresql_tablespace_dir}}/tbs_index"
+    - "{{postgresql_tablespace_dir}}/tbs_lob"
     
 - name: PostgreSQL | create temp directory to place the script(s)
   become: true

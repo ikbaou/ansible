@@ -38,8 +38,11 @@ postgresql_service_enabled: false # should the service be enabled, default is tr
 postgresql_cluster_name: "main"
 postgresql_cluster_reset: false
 
+postgresql_tablespace_dir: "/srv/pgsql/pg_tblspc"
 postgresql_conf_directory: "/srv/psql"
-postgresql_data_directory: "/srv/psql" #dont confuse with the tablespace data directory
+postgresql_data_directory: "/srv/psql" #don't confuse with the tablespace data directory
+    
+postgresql_escape_string_warning:       on
 
 #hba conf
 #e_proc		e_proc_ro      		10.64.66.100
@@ -111,7 +114,7 @@ postgresql_users:
     encrypted: yes
     role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
   - name: e_proc_ro
-    pass: K7r!B$rf75EL%
+    pass: e_proc_ro
     encrypted: yes
     role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
   - name: efl_user
@@ -125,7 +128,4 @@ postgresql_users:
   - name: webtpt_admin
     pass: KR5AyL$r#
     encrypted: yes
-    role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
-    
-    
-tablespace_dir: "/srv/pgsql/pg_tblspc"
+    role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"   

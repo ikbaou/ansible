@@ -8,7 +8,7 @@
 --- Before executing this script, manualy create directories i.e.
 ---
 ---
----	mkdir {{tablespace_dir}}/tbs_data
+---	mkdir {{postgresql_tablespace_dir}}/tbs_data
 ---
 ---
 --- chown the directories to postgres:postgres and chmod them to 700.
@@ -40,18 +40,18 @@ set escape_string_warning = off;
 drop tablespace if exists tbs_data;
 create tablespace tbs_data
   owner postgres
-  location '{{tablespace_dir}}/tbs_data';
+  location '{{postgresql_tablespace_dir}}/tbs_data';
   
 drop tablespace if exists tbs_index;  
 create tablespace tbs_index
   owner postgres
-  location '{{tablespace_dir}}/tbs_index';
+  location '{{postgresql_tablespace_dir}}/tbs_index';
 
 
 drop tablespace if exists tbs_lob;
 create tablespace tbs_lob
   owner postgres
-  location '{{tablespace_dir}}/tbs_lob';
+  location '{{postgresql_tablespace_dir}}/tbs_lob';
   
   
 ----------------------------------------------------------------------------------

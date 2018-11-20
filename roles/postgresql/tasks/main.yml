@@ -4,13 +4,16 @@
   with_first_found:
     - "../vars/main.yml"
   tags: [always]
-
-- import_tasks: install.yml
-  tags: [postgresql, postgresql-install]
   
-- import_tasks: configure.yml
-  tags: [postgresql, postgresql-configure]
+#- import_tasks: install.yml
+#  tags: [postgresql, postgresql-install]
+  
+#- import_tasks: configure.yml
+#  tags: [postgresql, postgresql-configure]
 
-- import_tasks: users.yml
-  tags: [postgresql, postgresql-users]
+#- import_tasks: users.yml
+#  tags: [postgresql, postgresql-users]
+  
+- import_tasks: tablespace.yml
+  tags: [postgresql, postgresql-tablespace]
 

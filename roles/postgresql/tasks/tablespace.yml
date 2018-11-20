@@ -1,0 +1,20 @@
+# file: postgresql/tasks/users.yml
+
+- name: PostgreSQL | Ensure PostgreSQL is running
+  service:
+    name: "{{ postgresql_service_name }}"
+    state: started
+
+- name: PostgreSQL | Ensure tablespace directories exist
+  become: true
+  file:    
+    name: "{{tablespace_dir}}/{{item}}"
+    state: directory
+    recursive: true
+    owner: "{{ postgresql_service_user }}"
+    group: "{{ postgresql_service_group }}"
+    mode: 0700
+    with_items:
+    -  tbs_data
+    -  tbs_index
+    -  tbs_lob

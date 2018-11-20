@@ -3,13 +3,15 @@
 # The standard ca-certs are needed because  without them yum will fail to
 # validate www.postgresql.org (or probably any other source).
 
-  - block:
+   - block:     
       - name: PostgreSQL | Install all the required dependencies | yum
+        become: true
         yum:
           name: ["ca-certificates","python-psycopg2", "python-pycurl", "glibc-common","epel-release","libselinux-python"]
           state: present
 
       - name: PostgreSQL | Add PostgreSQL repository | yum
+        become: true
         yum_repository:
            name: postgresql
            description: postgresql yum repo
@@ -18,6 +20,7 @@
         when: postgresql_install_repository
         
       - name: PostgreSQL | Make sure the dependencies are installed | yum
+        become: true
         yum:
          name: "{{ item }}"
          state: present
@@ -25,6 +28,7 @@
         with_items: ["python-psycopg2", "python-pycurl", "glibc-common","libselinux-python"]
 
       - name: PostgreSQL | Install PostgreSQL | yum
+        become: true
         yum:
           name: "{{ item }}"
           state: present
@@ -35,6 +39,7 @@
           - "postgresql{{ postgresql_version_terse }}-contrib"
 
       - name: PostgreSQL | PGTune | yum
+        become: true
         yum:
           name: pgtune
           state: present

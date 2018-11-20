@@ -8,13 +8,13 @@
 - name: PostgreSQL | Ensure tablespace directories exist
   become: true
   file:    
-    name: "{{tablespace_dir}}/{{item}}"
+    name: "{{item}}"
     state: directory
-    recursive: true
     owner: "{{ postgresql_service_user }}"
     group: "{{ postgresql_service_group }}"
     mode: 0700
-    with_items:
-    -  tbs_data
-    -  tbs_index
-    -  tbs_lob
+  with_items:
+    - "{{tablespace_dir}}"
+    - "{{tablespace_dir}}/tbs_data"
+    - "{{tablespace_dir}}/tbs_index"
+    - "{{tablespace_dir}}/tbs_lob"

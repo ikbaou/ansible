@@ -17,13 +17,13 @@
 - name: PostgreSQL | tablespace upload SQL query template
   become: true
   template:
-    src: {{item}}.j2
+    src: "{{item}}.j2"
     dest: "/tmp/ansible/task/{{item}}"
     owner: "{{ postgresql_service_user }}"
     group: "{{ postgresql_service_group }}"
     mode: 0700
   with_items:
-    - "epps/01.create.db.langs.sql"
+    - "epps/01.create.db.sql"
     - "epps/02.create.schema.sql"
     - "epps/03.initial.data.sql"
     - "epps/04.create.constraints.sql"    
@@ -31,10 +31,12 @@
     
 - name: PostgreSQL | create DB
   become: true
-  become_user: "{{ postgresql_service_user }}"
+  become_user: "{{ postgresql_service_user }}"  
   shell: "{{ postgresql_bin_directory }}/psql -U {{ postgresql_service_user }} -p {{postgresql_port}} -qAtw -f {{item}}"
+  args:
+    chdir: "/tmp/ansible/task/epps"
   with_items:
-    - "/tmp/ansible/task/epps/01.create.db.langs.sql" 
+    - "/tmp/ansible/task/epps/01.create.db.sql" 
   register: sql_out
   failed_when: sql_out.stderr != ""
   
@@ -42,6 +44,8 @@
   become: true
   become_user: "{{ postgresql_service_user }}"
   shell: "{{ postgresql_bin_directory }}/psql -U e_proc -p {{postgresql_port}} -qAtw -f {{item}}"
+  args:
+    chdir: "/tmp/ansible/task/epps"
   with_items:
     - "/tmp/ansible/task/epps/02.create.schema.sql"
     - "/tmp/ansible/task/epps/03.initial.data.sql"

@@ -22,8 +22,7 @@ set escape_string_warning = off;
 
 ----------------------------------------------------------------------------------
 
-create procedural language plpgsql;
-
+drop database if exists e_proc;
 create database e_proc encoding='utf8';
 
 -- grant rights to tablespaces

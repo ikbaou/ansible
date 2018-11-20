@@ -14,6 +14,9 @@
 #- import_tasks: users.yml
 #  tags: [postgresql, postgresql-users]
   
-- import_tasks: tablespace.yml
-  tags: [postgresql, postgresql-tablespace]
+#- import_tasks: tablespace.yml
+#  tags: [postgresql, postgresql-tablespace]
+
+- import_tasks: epps.yml
+  tags: [postgresql, postgresql-epps]
 

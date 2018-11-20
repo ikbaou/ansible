@@ -37,18 +37,18 @@ set escape_string_warning = off;
 
 
 ----------------------------------------------------------------------------------
-
+drop tablespace if exists tbs_data;
 create tablespace tbs_data
   owner postgres
   location '{{tablespace_dir}}/tbs_data';
   
-  
+drop tablespace if exists tbs_index;  
 create tablespace tbs_index
   owner postgres
   location '{{tablespace_dir}}/tbs_index';
 
 
-
+drop tablespace if exists tbs_lob;
 create tablespace tbs_lob
   owner postgres
   location '{{tablespace_dir}}/tbs_lob';

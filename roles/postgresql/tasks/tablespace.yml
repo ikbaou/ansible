@@ -41,8 +41,9 @@
 - name: PostgreSQL | tablespace execute create.tablespace.sql
   become: true
   become_user: "{{ postgresql_service_user }}"
-  shell: "{{ postgresql_bin_directory }}/psql -U {{ postgresql_service_user }} -p postgresql_port -qAtw -f /tmp/ansible/task/tablespace/create.tablespace.sql"
-  register: out
+  shell: "{{ postgresql_bin_directory }}/psql -U {{ postgresql_service_user }} -p {{postgresql_port}} -qAtw -f /tmp/ansible/task/tablespace/create.tablespace.sql"
+  register: sql_out
+  failed_when: sql_out.stderr != ""
 
-- debug: var=out.stdout_lines  
+- debug: var=sql_out.stderr_lines  
   

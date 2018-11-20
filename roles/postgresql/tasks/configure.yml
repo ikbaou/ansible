@@ -142,7 +142,8 @@
   notify: restart postgresql with service
     
 - name: PostgreSQL | Create folder for additional configuration files
-  file:
+  become: true
+  file:    
     name: "{{postgresql_conf_directory}}/conf.d"
     state: directory
     owner: "{{ postgresql_service_user }}"

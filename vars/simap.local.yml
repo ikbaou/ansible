@@ -109,23 +109,23 @@ postgresql_users:
   - name: e_proc
     pass: S8r!B%in75BG$
     encrypted: no
-    role_attr_flags:login,nosuperuser,inherit,nocreatedb,nocreaterole
+    role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
   - name: e_proc_ro
     pass: K7r!B$rf75EL%
     encrypted: no
-    role_attr_flags:login,nosuperuser,inherit,nocreatedb,nocreaterole
+    role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
   - name: efl_user
     pass: S$MKs^sNJ
     encrypted: no
-    role_attr_flags:login,nosuperuser,inherit,nocreatedb,nocreaterole
+    role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
   - name: webtpt
     pass: Ldw!E7df!
     encrypted: no
-    role_attr_flags:login,nosuperuser,inherit,nocreatedb,nocreaterole
+    role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
   - name: webtpt_admin
     pass: KR5AyL$r#
     encrypted: no
-    role_attr_flags:login,nosuperuser,inherit,nocreatedb,nocreaterole
+    role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
     
     
     

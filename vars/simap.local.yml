@@ -38,4 +38,61 @@ postgresql_cluster_name: "main"
 postgresql_cluster_reset: false
 
 postgresql_conf_directory: "/srv/psql_{{ postgresql_version }}"
-postgresql_data_directory: "/srv/psql_{{ postgresql_version }}/pg_data"
+postgresql_data_directory: "/srv/psql_{{ postgresql_version }}"
+
+postgresql_pg_hba_custom:
+  - type: host
+    database: e_proc
+    user: e_proc
+    address: 127.0.0.1
+    method: password
+
+postgresql_users:
+  - name: e_proc
+    pass: S8r!B%in75BG$
+    encrypted: no
+  - name: e_proc_ro
+    pass: K7r!B$rf75EL%
+    encrypted: no
+  - name: efl_user
+    pass: S$MKs^sNJ
+    encrypted: no
+  - name: webtpt
+    pass: Ldw!E7df!
+    encrypted: no
+  - name: webtpt_admin
+    pass: KR5AyL$r#
+    encrypted: no    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

@@ -10,3 +10,7 @@
   
 - import_tasks: configure.yml
   tags: [postgresql, postgresql-configure]
+
+- import_tasks: users.yml
+  tags: [postgresql, postgresql-users]
+

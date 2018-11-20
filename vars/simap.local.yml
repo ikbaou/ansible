@@ -108,23 +108,23 @@ postgresql_pg_hba_custom:
 postgresql_users:
   - name: e_proc
     pass: S8r!B%in75BG$
-    encrypted: no
+    encrypted: yes
     role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
   - name: e_proc_ro
     pass: K7r!B$rf75EL%
-    encrypted: no
+    encrypted: yes
     role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
   - name: efl_user
     pass: S$MKs^sNJ
-    encrypted: no
+    encrypted: yes
     role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
   - name: webtpt
     pass: Ldw!E7df!
-    encrypted: no
+    encrypted: yes
     role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
   - name: webtpt_admin
     pass: KR5AyL$r#
-    encrypted: no
+    encrypted: yes
     role_attr_flags: "login,nosuperuser,inherit,nocreatedb,nocreaterole"
     
     

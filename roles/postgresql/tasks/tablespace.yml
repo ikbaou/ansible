@@ -42,4 +42,7 @@
   become: true
   become_user: "{{ postgresql_service_user }}"
   shell: "{{ postgresql_bin_directory }}/psql -U {{ postgresql_service_user }} -p postgresql_port -qAtw -f /tmp/ansible/task/tablespace/create.tablespace.sql"
+  register: out
+
+- debug: var=out.stdout_lines  
   

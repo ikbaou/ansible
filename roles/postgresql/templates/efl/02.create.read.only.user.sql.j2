@@ -1,0 +1,37 @@
+---  Execute the script from psql as postgres user
+
+--
+-- set some client variables	
+set client_min_messages to error;
+set statement_timeout = 0;
+set client_encoding = 'utf8';
+set standard_conforming_strings = off;
+set check_function_bodies = false;
+set client_min_messages = warning;
+set escape_string_warning = off;
+
+
+-- Spool output to log file
+\o 02.create.read.only.user.log
+
+----------------------------------------------------------------------------------
+-- grant RO user connect on selected database
+--grant connect on database <database_name> to e_proc_ro;
+
+-- grant usage on schemas in the selected database
+grant usage on schema public to e_proc_ro;
+grant usage on schema ef to e_proc_ro;
+
+-- grant SELECT privilege on all sequences in schemas in selected database
+grant select on all sequences in schema public to e_proc_ro;
+grant select on all sequences in schema ef to e_proc_ro;
+
+-- grant SELECT privilege on all tables in schemas in selected database
+grant select on all tables in schema public to e_proc_ro;
+grant select on all tables in schema ef to e_proc_ro;
+
+-- grant RO user to all tables and all sequences created in the future, in all schemas in selected database
+alter default privileges for user efl_user grant select on tables to e_proc_ro;
+alter default privileges for user efl_user grant select on sequences to e_proc_ro;
+
+----------------------------------------------------------------------------------

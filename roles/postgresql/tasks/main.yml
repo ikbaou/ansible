@@ -5,18 +5,24 @@
     - "../vars/main.yml"
   tags: [always]
   
-#- import_tasks: install.yml
-#  tags: [postgresql, postgresql-install]
+- import_tasks: install.yml
+  tags: [postgresql, postgresql-install]
   
-#- import_tasks: configure.yml
-#  tags: [postgresql, postgresql-configure]
+- import_tasks: configure.yml
+  tags: [postgresql, postgresql-configure]
 
-#- import_tasks: users.yml
-#  tags: [postgresql, postgresql-users]
+- import_tasks: users.yml
+  tags: [postgresql, postgresql-users]
   
-#- import_tasks: tablespace.yml
-#  tags: [postgresql, postgresql-tablespace]
+- import_tasks: tablespace.yml
+  tags: [postgresql, postgresql-tablespace]
 
 - import_tasks: epps.yml
   tags: [postgresql, postgresql-epps]
+  
+- import_tasks: efl.yml
+  tags: [postgresql, postgresql-epps]
+
+- import_tasks: webtpt.yml
+  tags: [postgresql, postgresql-epps]  
 

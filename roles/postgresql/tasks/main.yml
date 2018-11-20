@@ -7,3 +7,6 @@
 
 - import_tasks: install.yml
   tags: [postgresql, postgresql-install]
+  
+- import_tasks: configure.yml
+  tags: [postgresql, postgresql-configure]

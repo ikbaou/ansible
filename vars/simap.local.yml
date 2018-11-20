@@ -37,8 +37,8 @@ postgresql_service_enabled: false # should the service be enabled, default is tr
 postgresql_cluster_name: "main"
 postgresql_cluster_reset: false
 
-postgresql_conf_directory: "/srv/psql_{{ postgresql_version }}"
-postgresql_data_directory: "/srv/psql_{{ postgresql_version }}"
+postgresql_conf_directory: "/srv/psql"
+postgresql_data_directory: "/srv/psql"
 
 postgresql_pg_hba_custom:
   - type: host

@@ -1,0 +1,9 @@
+# file: postgresql/tasks/main.yml
+
+- include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/main.yml"
+  tags: [always]
+
+- import_tasks: install.yml
+  tags: [postgresql, postgresql-install]

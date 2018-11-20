@@ -18,4 +18,8 @@ clamav:
   stream_max_length: 150M
   max_scan_size: 150M
   max_file_size: 150M
+  
+#PG related variables
+postgresql:
+  
 

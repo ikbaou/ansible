@@ -1,0 +1,8 @@
+---
+- name: "Starting PG 10 installation"
+  hosts: "{{target_host}}"
+  vars_files:
+    - "./vars/{{target_env}}.yml"
+  roles:  
+  - postgresql
+

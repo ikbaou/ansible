@@ -1,4 +1,4 @@
-# file: postgresql/tasks/users.yml
+# file: postgresql/tasks/tablespace.yml
 
 - name: PostgreSQL | Ensure PostgreSQL is running
   service:
@@ -18,3 +18,28 @@
     - "{{tablespace_dir}}/tbs_data"
     - "{{tablespace_dir}}/tbs_index"
     - "{{tablespace_dir}}/tbs_lob"
+    
+- name: PostgreSQL | create temp directory to place the script(s)
+  become: true
+  file:    
+    name: "/tmp/ansible/task/tablespace"
+    state: directory
+    owner: "{{ postgresql_service_user }}"
+    group: "{{ postgresql_service_group }}"
+    mode: 0700
+
+- name: PostgreSQL | tablespace upload SQL query template
+  become: true
+  template:
+    src: create.tablespace.sql.j2
+    dest: "/tmp/ansible/task/tablespace/create.tablespace.sql"
+    owner: "{{ postgresql_service_user }}"
+    group: "{{ postgresql_service_group }}"
+    mode: 0700
+  register: postgresql_configuration_pt1
+    
+- name: PostgreSQL | tablespace execute create.tablespace.sql
+  become: true
+  become_user: "{{ postgresql_service_user }}"
+  shell: "{{ postgresql_bin_directory }}/psql -U {{ postgresql_service_user }} -p postgresql_port -qAtw -f /tmp/ansible/task/tablespace/create.tablespace.sql"
+  
